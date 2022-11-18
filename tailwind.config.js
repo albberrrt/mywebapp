@@ -3,6 +3,9 @@ module.exports = {
   content: ['src/**/*.tsx'],
   theme: {
     extend: {
+      fontFamily: {
+        roboto: 'Roboto, sans-serif'
+      },
       backgroundImage: {
         app: 'url(/app-bg.png)'
       },

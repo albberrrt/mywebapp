@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import logoImg from "../assets/CA-CPS-LOGOS.png";
 
+import Input from "../components/Input";
+import Button from "../components/Button";
+
 import { api } from "../lib/axios"
 
 export default function Home() {
@@ -32,10 +35,27 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="relative z-1 w-[86%] -mt-96 mr-auto mb-[125px] ml-auto rounded-t-[6px] flex flex-[0_0_auto] flex-grow pt-[30px] pb-[30px] shadow-[0_20px_20px_-10px_rgb(49,52,57,0.3)]">
+          <div className="relative z-1 w-[86%] -mt-[500px] mr-auto mb-[125px] ml-auto rounded-t-[6px] flex flex-[0_0_auto] flex-grow pt-[30px] pb-[30px] ">
             <div className="relative z-10 w-full">
-              <form onSubmit={openForm} className="bg-white rounded-t-[6px] pt-[60px] pb-[80px] w-[40%] flex justify-center">
+              <form onSubmit={openForm} className="bg-gray-50 rounded-[6px] pt-[60px] pb-[80px] w-[40%] flex justify-center flex flex-col items-center shadow-[0_20px_20px_-10px_rgb(49,52,57,0.3)]">
+                <h1 className="text-gray-900 font-roboto font-medium text-3xl -mt-4">PESQUISE SEU FORMULÁRIO!</h1>
+                <Input 
+                  type="text"
+                  placeholder="Nome do Aluno"
+                  name="input"
+                  id="inputID"
+                  width="80%"
+                  bg="#fff"
+                />
 
+                <Button
+                  value="Procurar"
+                  bg="#002c58"
+                  width="80%"
+                  id="sendButton01Id"
+                  name="sendButton01Name"
+                  type="SEARCH"
+                />
               </form>
             </div>
           </div>
