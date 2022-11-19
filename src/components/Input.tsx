@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     type: string;
+    value?: string;
     placeholder: string;
     name: string;
     id: string;
@@ -9,12 +10,12 @@ interface InputProps {
     bg?: string;
 }
 
-const Input: FC<InputProps> = ({ type, placeholder, name, id, width, bg}) => {
+const Input: FC<InputProps> = ({ type, value, placeholder, name, id, width, bg, ...props}) => {
     return (
         <>
             <div className="input-div" style={{width}}>
-                <input type={type} name={name} id={id} className="inputClass" placeholder=" " style={{backgroundColor: bg}}></input>
-                <label htmlFor={name} className="placeholder-input">{placeholder}</label>
+                <input type={type} name={name} defaultValue={value} id={id} className="inputClass" placeholder=" " style={{backgroundColor: bg}} {...props}></input>
+                <label htmlFor={id} className="placeholder-input">{placeholder}</label>
             </div>
         </>
     )

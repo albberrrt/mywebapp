@@ -1,22 +1,81 @@
 
-
 import Image from 'next/image';
 import logoImg from "../assets/CA-CPS-LOGOS.png";
+import asideImg from "../assets/expocuca-aside.png";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
 
 import { api } from "../lib/axios"
 
+import { FormEvent, useState } from "react";
+import Report from '../components/Report';
+
 export default function Home() {
+  const [form, setForm] = useState(false);
+  const [aluno, setAluno] = useState('');
+  const [report, setReport] = useState([]);
 
   function openForm() {
-
+    setForm(true);
+    console.log(aluno);
   }
 
+  async function getData(event: FormEvent) {
+    event.preventDefault();
+
+      var url = "/data.php?n=" + aluno;
+      const [alunoReports] = await Promise.all([
+        
+        api.get(url)
+      ])
+      
+      setReport( arr => alunoReports.data);
+      console.log(report);
+  }
+
+  const list = report.map(({key, aluno, turno, serie, curso, componente, comentario}) => <Report key={key} aluno={aluno} turno={turno} serie={serie} curso={curso} componente={componente} comentario={comentario} onClick={function (): void {
+    throw new Error('Function not implemented.');
+  } } />);
 
   return (
-    <div>
+      <div>
+
+        <div className="absolute w-full h-screen z-[100] flex justify-center items-center" style={{display: form ? 'flex' : 'none'}}>
+          <div className="w-[60%] min-h-[80%] bg-cablue-800 pr-10 pl-10 flex flex-col rounded-[6px]">
+            <form onSubmit={getData} className="w-full h-[10%] flex">
+              <Input
+                key="random1"
+                type="text"
+                placeholder="Nome do Aluno"
+                name="inputAlunoName"
+                id="inputAlunoID"
+                width="50%"
+                bg="#fff"
+                value={aluno}
+                onChange={event => setAluno(event.target.value)}
+              />
+              <Button 
+                bg='#ff0002'
+                width="10%"
+                id="sendButton02Id"
+                name="sendButton02Name"
+                types='SEARCH'
+                className="ml-7"
+              />
+              <div className='relative right-0 w-full text-right flex items-center mt-[1.7rem]'>
+                <span className='w-full text-gray-50 text-3xl mr-4 underline'><span className='hover:cursor-pointer' onClick={() => setForm(false)}>Voltar</span></span>
+              </div>
+            </form>
+            <div className='w-full flex flex-col mt-10 max-h-[480px] overflow-y-auto'>
+              {list}
+            </div>
+          </div>
+          <div className="absolute w-full h-screen z-[-10] flex justify-center items-center bg-gray-900 opacity-30" onClick={() => setForm(false)}></div>
+        </div>
+
+
+
       <header className="w-full absolute z-50">
         <div className="w-100 relative pt-3 pb-2 pl-[5%] pr-[5%] flex flex-auto items-center">
           <div className="flex flex-grow-0 flex-shrink-0 text-left items-center max-w-[30%]">
@@ -35,9 +94,9 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="relative z-1 w-[86%] -mt-[500px] mr-auto mb-[125px] ml-auto rounded-t-[6px] flex flex-[0_0_auto] flex-grow pt-[30px] pb-[30px] ">
-            <div className="relative z-10 w-full">
-              <form onSubmit={openForm} className="bg-gray-50 rounded-[6px] pt-[60px] pb-[80px] w-[40%] flex justify-center flex flex-col items-center shadow-[0_20px_20px_-10px_rgb(49,52,57,0.3)]">
+          <div className="relative z-1 w-[86%] -mt-[650px] mr-auto mb-[125px] ml-auto rounded-t-[6px] flex flex-[0_0_auto] flex-grow pt-[30px] pb-[30px] ">
+            <div className="relative z-10 w-full flex items-center">
+              <div onSubmit={openForm} className="bg-gray-50 rounded-[6px] pt-[60px] pb-[80px] w-[40%] max-h-[60%] flex justify-center flex-col items-center shadow-[0_20px_20px_-10px_rgb(49,52,57,0.3)]">
                 <h1 className="text-gray-900 font-roboto font-medium text-3xl -mt-4">PESQUISE SEU FORMULÁRIO!</h1>
                 <Input 
                   type="text"
@@ -46,6 +105,8 @@ export default function Home() {
                   id="inputID"
                   width="80%"
                   bg="#fff"
+                  value={aluno}
+                  onChange={event => setAluno(event.target.value)}
                 />
 
                 <Button
@@ -54,9 +115,11 @@ export default function Home() {
                   width="80%"
                   id="sendButton01Id"
                   name="sendButton01Name"
-                  type="SEARCH"
+                  types="SEARCH"
+                  onClick={openForm}
                 />
-              </form>
+              </div>
+              <Image src={asideImg} alt="Expocuca" className='w-[800px] ml-20'/>
             </div>
           </div>
         </div>

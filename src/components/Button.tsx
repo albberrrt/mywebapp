@@ -1,20 +1,21 @@
 import React, { FC } from 'react';
 import { BiSearch } from 'react-icons/bi'
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
     value?: string;
     bg: string;
-    type?: 'DEFAULT' | 'SEARCH';
+    types?: 'DEFAULT' | 'SEARCH';
     width: string;
     id: string;
     name: string;
+    onClick?: () => void;
 }
 
-const Button: FC<ButtonProps> = ({ value, bg, type, width, id, name }) => {
+const Button: FC<ButtonProps> = ({ value, bg, types, width, id, name, onClick, ...props}) => {
     return (
         <>
             <div className="button-div" style={{width}}>
-                <button type="submit" name={name} id={id} style={{backgroundColor: bg}} className="flex justify-center items-center">{value} {type === 'SEARCH' ? <BiSearch/> : null} </button>
+                <button type="submit" name={name} id={id} style={{backgroundColor: bg}} onClick={onClick} className="flex justify-center items-center" {...props}>{value} {types === 'SEARCH' ? <BiSearch/> : null} </button>
             </div>
         </>
     )
